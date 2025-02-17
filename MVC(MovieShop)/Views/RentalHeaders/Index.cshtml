@@ -1,0 +1,54 @@
+﻿@model IEnumerable<MVC_MovieShop_.Models.RentalHeader>
+
+
+    @{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<p>
+    <a asp-action="Create">Create New</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Rental Date</th>
+            <th>Return Date</th>
+            <th>Customer</th>
+            <th>Movies</th> 
+            <th>Status</th> 
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.RentalDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.ReturnDate)</td>
+                <td>@item.CustomerDetails.FirstName @item.CustomerDetails.LastName</td>
+                <td>
+                    <ul>
+                        @foreach (var detail in item.RentalDetails)
+                        {
+                            <li>@detail.Movie.Title</li> <!-- Display each movie rented -->
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var detail in item.RentalDetails)
+                        {
+                            <li>@detail.Status</li> <!-- Show Movie Status -->
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

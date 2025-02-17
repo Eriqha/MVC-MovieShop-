@@ -1,0 +1,95 @@
+﻿@model MVC_MovieShop_.Models.RentalHeader
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Rental Information</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RentalDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RentalDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReturnDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReturnDate)
+        </dd>
+        <dt class="col-sm-2">
+            Customer Name
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CustomerDetails.FirstName @Model.CustomerDetails.LastName
+        </dd>
+    </dl>
+
+  <h4>Rented Movies</h4>
+<div class="row">
+    <!-- Customer Details -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                Customer Details
+            </div>
+            <div class="card-body">
+                <p><strong>Id:</strong> @Model.CustomerDetails.CustomerId</p>
+                <p><strong>First Name:</strong> @Model.CustomerDetails.FirstName</p>
+                <p><strong>Last Name:</strong> @Model.CustomerDetails.LastName</p>
+                <p><strong>Middle Name:</strong> @Model.CustomerDetails.MiddleName</p>
+                <p><strong>Phone Number:</strong> @Model.CustomerDetails.Phone</p>
+                <p><strong>Email:</strong> @Model.CustomerDetails.Email</p>
+                <p><strong>Address:</strong> @Model.CustomerDetails.Address</p>
+                <p><strong>Date of Birth:</strong> @Model.CustomerDetails.DateOfBirth</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Movie Details -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                Movie Details
+            </div>
+            <div class="card-body">
+                @if (Model.RentalDetails != null && Model.RentalDetails.Any())
+                {
+                    @foreach (var detail in Model.RentalDetails)
+                    {
+                        <p><strong>Id:</strong> @detail.Movie.MovieId</p>
+                        <p><strong>Title:</strong> @detail.Movie.Title</p>
+                        <p><strong>Genre:</strong> @detail.Movie.Genre</p>
+                        <p><strong>Director:</strong> @detail.Movie.Director</p>
+                        <p><strong>Release Date:</strong> @detail.Movie.ReleaseYear.</p>
+                        <p><strong>Stock:</strong> @detail.Movie.Stock</p>
+                        <p><strong>Description:</strong> @detail.Movie.Description</p>
+                    }
+                }
+                else
+                {
+                    <p class="text-center">No movies rented.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rental Status -->
+<div class="mt-3">
+    <p><strong>Rented Date:</strong> @Model.RentalDate.ToShortDateString()</p>
+    <p><strong>Return Date:</strong> @Model.ReturnDate.ToShortDateString()</p>
+        @foreach (var rental in Model.RentalDetails)
+        {
+            <p><strong>Rental Status:</strong> <span class="badge bg-primary">@rental.Status</span></p>
+        }
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
